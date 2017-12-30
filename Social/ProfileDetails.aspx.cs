@@ -141,6 +141,58 @@ public partial class ProfileDetails : System.Web.UI.Page
         }
         
         DisplayMyPictures();
+
+        DisplayProfileVisSettings();
+
+        HideProfile();
+    }
+    void HideProfile()
+    {
+        bool hide = false;
+        if (state=="myprofile")
+        {
+            // no hiding
+            return;
+        }
+        bool isProfilePrivate = ff.IsProfilePrivate(profileUserId);
+        hide = (isProfilePrivate &&
+            (state == "guest" || !ff.AreFriends(profileUserId, sessionUserId)));
+        if (hide)
+        {
+           // ProfilePicture.Visible = false;
+            DetailsView1.Visible = false;
+            LabelMsg.Visible = false;
+            TextBoxSend.Visible = false;
+            Literal1.Visible = false;
+            ImageMain.Visible = false;
+            TextBoxMain.Visible = false;
+            ButtonSendMsg.Visible = false;
+            TextBoxComments.Visible = false;
+            TextBoxSubComment.Visible = false;
+            ButtonSubComment.Visible = false;
+            ButtonAdd.Visible = false;
+            ImageButtonLeft.Visible = false;
+            ImageButtonRight.Visible = false;
+            LabelPD.Text = "Private Profile";
+        }
+    }
+    void DisplayProfileVisSettings()
+    {
+        if (state == "myprofile")
+        {
+            // display them
+            ProfileVisLabel.Visible = true;
+            RadioButtonList1.Visible = true;
+            PVSetButton.Visible = true;
+        }
+        else
+        {
+
+            ProfileVisLabel.Visible = false;
+            RadioButtonList1.Visible = false;
+            PVSetButton.Visible = false;
+            // hide them
+        }
     }
     void DisplayMyPictures()
     {
@@ -297,5 +349,15 @@ public partial class ProfileDetails : System.Web.UI.Page
     protected void TextBoxSend_TextChanged(object sender, EventArgs e)
     {
 
+    }
+
+    protected void PVSetButton_Click(object sender, EventArgs e)
+    {
+        // alter data table to set profile visibility of the current user as Private if the case
+
+        if(RadioButtonList1.SelectedValue.ToString()=="Private")
+        {
+            ff.SetProfilePrivate(sessionUserId);
+        }
     }
 }

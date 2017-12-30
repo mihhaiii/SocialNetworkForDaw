@@ -175,7 +175,9 @@
             </tr>
         </table>
         <p class="auto-style1">
-            <strong>Profile Details</strong></p>
+            <strong>
+            <asp:Label ID="LabelPD" runat="server" EnableTheming="True" Text="Profile Details"></asp:Label>
+            </strong></p>
         <div>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Surname], [Email], [Sex], [ImagePath] FROM [Users] WHERE ([Id] = @Id)">
                 <SelectParameters>
@@ -296,7 +298,7 @@
                     </asp:RadioButtonList>
                 </td>
                 <td>
-                    <asp:Button ID="PVSetButton" runat="server" Text="Set" />
+                    <asp:Button ID="PVSetButton" runat="server" Text="Set" OnClick="PVSetButton_Click" />
                 </td>
             </tr>
         </table>

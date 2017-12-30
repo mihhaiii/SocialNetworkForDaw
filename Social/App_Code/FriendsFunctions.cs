@@ -29,6 +29,35 @@ public class FriendsFunctions
         connection.Close();
         return result;
     }
+
+    public void SetProfilePrivate(int userid)
+    {
+        connection.Open();
+        string query = "update Users set UserVis = 'Private' where Id=@myid";
+            
+
+        SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@myid", userid);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+    public bool IsProfilePrivate(int userid)
+    {
+        connection.Open();
+        string query = "select UserVis from Users where Id=@myid";
+
+
+        SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@myid", userid);
+        var res = command.ExecuteScalar();
+        connection.Close();
+        if (res.ToString() == "Private")
+        {
+            return true; // it's public
+        }
+        return false;               
+       
+    }
     public void AddComment(int imgid, string text, int userid)
     {
         connection.Open();
