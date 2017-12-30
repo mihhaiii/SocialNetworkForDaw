@@ -108,6 +108,14 @@ public partial class People : System.Web.UI.Page
         DisplayMenuItems();
 
         SetFriendsStatus();
+        AdjustGuestSettings();
+    }
+
+    void AdjustGuestSettings()
+    {
+        if (state != "guest")
+            return;
+        GroupsB.Visible = false;
     }
 
     protected void ImageButton1_Click(object sender, CommandEventArgs e)

@@ -30,14 +30,16 @@ public class FriendsFunctions
         return result;
     }
 
-    public void SetProfilePrivate(int userid)
+    public void SetProfileVis(int userid, string what)
     {
         connection.Open();
-        string query = "update Users set UserVis = 'Private' where Id=@myid";
+        string query = "update Users set UserVis = @wh where Id=@myid";
             
 
         SqlCommand command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@myid", userid);
+        command.Parameters.AddWithValue("@wh", what);
+
         command.ExecuteNonQuery();
         connection.Close();
     }
@@ -57,6 +59,34 @@ public class FriendsFunctions
         }
         return false;               
        
+    }
+    public void DeleteProfile(int userid)
+    {
+        connection.Open();
+        string query = "delete from Users where Id=@myid";
+
+
+        SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@myid", userid);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+    public bool IsUserAdmin(int userid)
+    {
+        connection.Open();
+        string query = "select Admin from Users where Id=@myid";
+
+
+        SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@myid", userid);
+        var res = command.ExecuteScalar();
+        connection.Close();
+        if (res.ToString() == "Admin")
+        {
+            return true;
+        }
+        return false;
+
     }
     public void AddComment(int imgid, string text, int userid)
     {

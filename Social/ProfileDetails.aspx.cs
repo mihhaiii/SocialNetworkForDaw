@@ -144,7 +144,31 @@ public partial class ProfileDetails : System.Web.UI.Page
 
         DisplayProfileVisSettings();
 
-        HideProfile();
+        if (!IsUserAdmin())
+            HideProfile();
+        else
+            SetAdminPrivileges();
+        AdjustGuestSettings();
+    }
+    void AdjustGuestSettings()
+    {
+        if (state != "guest")
+            return;
+        GroupsB.Visible = false;
+    }
+    bool IsUserAdmin()
+    {
+        if (state == "guest") return false;
+        return ff.IsUserAdmin(sessionUserId);
+    }
+    void SetAdminPrivileges()
+    {
+        ButtonDelete.Visible = true;
+        ButtonDelete.ForeColor = System.Drawing.Color.Red;
+            ButtonDelete.Text = "Delete photo As Admin";
+        LabelAdmin.Visible = true;
+        if (state != "myprofile")
+            ButtonDelPR.Visible = true;
     }
     void HideProfile()
     {
@@ -355,9 +379,14 @@ public partial class ProfileDetails : System.Web.UI.Page
     {
         // alter data table to set profile visibility of the current user as Private if the case
 
-        if(RadioButtonList1.SelectedValue.ToString()=="Private")
-        {
-            ff.SetProfilePrivate(sessionUserId);
-        }
+  
+            ff.SetProfileVis(sessionUserId, RadioButtonList1.SelectedValue.ToString());
+  
+    }
+
+    protected void ButtonDelPR_Click(object sender, EventArgs e)
+    {
+        ff.DeleteProfile(profileUserId);
+        Response.Redirect("People.aspx");
     }
 }

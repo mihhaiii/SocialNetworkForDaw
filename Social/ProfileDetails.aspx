@@ -177,6 +177,8 @@
         <p class="auto-style1">
             <strong>
             <asp:Label ID="LabelPD" runat="server" EnableTheming="True" Text="Profile Details"></asp:Label>
+&nbsp;
+            <asp:Label ID="LabelAdmin" runat="server" ForeColor="Red" Text="Admin privileges" Visible="False"></asp:Label>
             </strong></p>
         <div>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Surname], [Email], [Sex], [ImagePath] FROM [Users] WHERE ([Id] = @Id)">
@@ -184,7 +186,7 @@
                     <asp:QueryStringParameter Name="Id" QueryStringField="userid" Type="Int32" />
                 </SelectParameters>
             </asp:SqlDataSource>
-        &nbsp;&nbsp;&nbsp;
+        &nbsp;<asp:Button ID="ButtonDelPR" runat="server" ForeColor="Red" Text="Delete Profile" Visible="False" />
         </div>
         <table class="auto-style12">
             <tr>
